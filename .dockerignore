@@ -1,0 +1,10 @@
+venv/
+__pycache__/
+*.pyc
+uploads/*
+outputs/*
+document/
+.git/
+.gitignore
+run.bat
+requirements-windows.txt

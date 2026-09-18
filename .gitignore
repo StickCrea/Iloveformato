@@ -1,0 +1,10 @@
+venv/
+__pycache__/
+*.pyc
+uploads/*
+outputs/*
+!uploads/.gitkeep
+!outputs/.gitkeep
+
+# Documentos personales del usuario - nunca deben subirse al repositorio
+document/

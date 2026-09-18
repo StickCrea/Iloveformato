@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conversor de Formatos</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">CF</span>
+        <span class="brand-name">Conversor de Formatos</span>
+      </div>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema">
+        <svg class="icon-sun" viewBox="0 0 24 24"><path d="M12 4V2m0 20v-2m8-8h2M2 12h2m14.14 6.14 1.42 1.42M4.44 4.44l1.42 1.42m0 12.28-1.42 1.42M19.56 4.44l-1.42 1.42M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      </button>
+    </header>
+
+    <main class="content">
+      <section class="hero">
+        <h1>Convierte tus archivos al instante</h1>
+        <p>PDF, Excel y Word — arrastra un archivo y descarga el resultado en segundos.</p>
+      </section>
+
+      <section class="grid" id="conversion-grid">
+        {% for mode, info in conversions.items() %}
+        <button class="card" type="button"
+                data-mode="{{ mode }}"
+                data-label="{{ info.label }}"
+                data-accept="{{ info.accept }}">
+          <span class="card-icon" data-icon="{{ mode }}"></span>
+          <span class="card-title">{{ info.label }}</span>
+          <span class="card-hint">Haz clic para convertir</span>
+        </button>
+        {% endfor %}
+      </section>
+    </main>
+
+    <div id="overlay" class="overlay" hidden>
+      <div class="panel" role="dialog" aria-modal="true" aria-labelledby="panel-title">
+        <button id="panel-close" class="panel-close" type="button" aria-label="Cerrar">&times;</button>
+        <h2 id="panel-title">Convertir</h2>
+
+        <div id="drop-stage" class="stage">
+          <div id="dropzone" class="dropzone">
+            <svg viewBox="0 0 24 24" class="dropzone-icon"><path d="M12 16V4m0 0-4 4m4-4 4 4M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <p><strong>Arrastra tu archivo aqui</strong> o haz clic para buscarlo</p>
+            <span id="dropzone-accept" class="dropzone-accept"></span>
+            <input id="file-input" type="file" hidden />
+          </div>
+        </div>
+
+        <div id="file-stage" class="stage" hidden>
+          <div class="file-row">
+            <span class="file-icon"></span>
+            <div class="file-info">
+              <span id="file-name" class="file-name"></span>
+              <span id="file-size" class="file-size"></span>
+            </div>
+            <button id="file-remove" class="file-remove" type="button" aria-label="Quitar archivo">&times;</button>
+          </div>
+          <button id="convert-btn" class="primary-btn" type="button">Convertir</button>
+        </div>
+
+        <div id="progress-stage" class="stage" hidden>
+          <div class="progress-track">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+          <p id="progress-label" class="muted">Convirtiendo...</p>
+        </div>
+
+        <div id="result-stage" class="stage" hidden>
+          <svg viewBox="0 0 24 24" class="result-icon"><path d="M20 6 9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <p class="result-title">Conversion lista</p>
+          <a id="download-link" class="primary-btn" href="#" download>Descargar archivo</a>
+          <button id="reset-btn" class="link-btn" type="button">Convertir otro archivo</button>
+        </div>
+
+        <div id="error-stage" class="stage" hidden>
+          <p id="error-message" class="error-message"></p>
+          <button id="error-retry" class="link-btn" type="button">Intentar de nuevo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
